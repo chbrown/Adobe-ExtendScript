@@ -194,7 +194,12 @@
 <xsl:template match="omv:classdef">
   <xsl:text>&#10;</xsl:text>
   <xsl:apply-templates select="." mode="comment" />
-  <xsl:text>export declare class </xsl:text><xsl:value-of select="@name" /><xsl:text> {</xsl:text><xsl:text>&#10;</xsl:text>
+  <xsl:text>export declare class </xsl:text><xsl:value-of select="@name" />
+  <xsl:if test="omv:superclass">
+    <xsl:text> extends </xsl:text>
+    <xsl:value-of select="omv:superclass" />
+  </xsl:if>
+  <xsl:text> {&#10;</xsl:text>
   <xsl:apply-templates select="omv:elements" />
   <xsl:text>}&#10;</xsl:text>
 </xsl:template>
