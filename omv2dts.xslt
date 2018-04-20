@@ -196,7 +196,7 @@
   <xsl:apply-templates select="." mode="comment" />
   <xsl:text>interface </xsl:text><xsl:value-of select="@name" /><xsl:text> {</xsl:text><xsl:text>&#10;</xsl:text>
   <xsl:apply-templates select="omv:elements" />
-  <xsl:text>}&#10;&#10;</xsl:text>
+  <xsl:text>}&#10;</xsl:text>
 </xsl:template>
 
 <xsl:template match="/">
