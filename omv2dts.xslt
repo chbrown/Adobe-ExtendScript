@@ -12,6 +12,7 @@
     <xsl:when test=".='Object'">object</xsl:when>
     <xsl:when test=".='Number'">number</xsl:when>
     <xsl:when test=".='int'">number</xsl:when>
+    <xsl:when test=".='bool'">boolean</xsl:when>
     <xsl:when test=".='Boolean'">boolean</xsl:when>
     <xsl:when test=".='String'">string</xsl:when>
     <xsl:otherwise><xsl:value-of select="." /></xsl:otherwise>
