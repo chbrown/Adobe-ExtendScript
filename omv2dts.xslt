@@ -3,7 +3,6 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:omv="http://schema.adobe.com/omv/1.0/omv.xsd">
   <xsl:output method="text" encoding="UTF-8" />
-  <xsl:strip-space elements="*" />
 
 <!-- mapping from type (a string) to the corresponding proper TypeScript type -->
 <xsl:template match="omv:type">
@@ -32,30 +31,16 @@
 </xsl:template>
 
 <!-- convert description / shortdesc contents to something resembling markdown -->
-<xsl:template match="omv:a">
+<xsl:template match="omv:br[not(string())]">
+  <!-- br sometimes means linebreak (when it's empty),
+    but sometimes it means bold (or some sort of code snippet) -->
+  <xsl:text>&#10;</xsl:text>
+</xsl:template>
+<xsl:template match="omv:a|omv:b|omv:br|omv:font|omv:i">
+  <!-- each of these seem to represent code fragments -->
   <!-- a elements also have an @href attribute -->
   <xsl:text>`</xsl:text>
-  <xsl:value-of select="text()" />
-  <xsl:text>`</xsl:text>
-</xsl:template>
-<xsl:template match="omv:br">
-  <xsl:choose>
-    <!-- br sometimes means linebreak (when it's empty) -->
-    <xsl:when test="text()=''">
-      <xsl:text>&#10;</xsl:text>
-    </xsl:when>
-    <!-- but sometimes it means bold (or some sort of code snippet) -->
-    <xsl:otherwise>
-      <xsl:text>`</xsl:text>
-      <xsl:value-of select="text()" />
-      <xsl:text>`</xsl:text>
-    </xsl:otherwise>
-  </xsl:choose>
-</xsl:template>
-<xsl:template match="omv:b|omv:font|omv:i">
-  <!-- each of these seem to represent code fragments -->
-  <xsl:text>`</xsl:text>
-  <xsl:value-of select="text()" />
+  <xsl:value-of select="normalize-space()" />
   <xsl:text>`</xsl:text>
 </xsl:template>
 <xsl:template match="omv:u">
