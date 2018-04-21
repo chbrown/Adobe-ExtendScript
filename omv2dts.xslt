@@ -34,6 +34,14 @@
   </xsl:if>
 </xsl:template>
 
+<!-- add "Value" suffix to invalid identifiers -->
+<xsl:template match="@name">
+  <xsl:value-of select="." />
+  <xsl:if test=".='return' or .='default'">
+    <xsl:text>Value</xsl:text>
+  </xsl:if>
+</xsl:template>
+
 <!-- convert description / shortdesc contents to something resembling markdown -->
 <xsl:template match="omv:br[not(string())]">
   <!-- br sometimes means linebreak (when it's empty),
@@ -87,7 +95,7 @@
       <xsl:text>&#10;</xsl:text>
       <xsl:value-of select="$indentation" />
       <xsl:text> * @param </xsl:text>
-      <xsl:value-of select="@name" />
+      <xsl:apply-templates select="@name" />
       <xsl:if test="omv:shortdesc|omv:description">
         <xsl:text> - </xsl:text>
         <xsl:apply-templates select="omv:shortdesc" />
@@ -128,7 +136,7 @@
 </xsl:template>
 
 <xsl:template match="omv:parameter">
-  <xsl:value-of select="@name" />
+  <xsl:apply-templates select="@name" />
   <xsl:if test="@optional">
     <xsl:text>?</xsl:text>
   </xsl:if>
