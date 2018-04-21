@@ -10,6 +10,7 @@
     <xsl:when test=".='Any'">any</xsl:when>
     <xsl:when test=".='Array'">any[]</xsl:when>
     <xsl:when test=".='Object'">object</xsl:when>
+    <xsl:when test=".='ObjectArray'">object[]</xsl:when>
     <xsl:when test=".='Number'">number</xsl:when>
     <xsl:when test=".='uint'">number</xsl:when>
     <xsl:when test=".='int'">number</xsl:when>
