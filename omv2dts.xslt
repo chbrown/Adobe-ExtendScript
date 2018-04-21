@@ -167,10 +167,19 @@
   </xsl:apply-templates>
   <xsl:value-of select="$indentation" />
   <xsl:value-of select="$modifier" />
-  <xsl:value-of select="$name" />
-  <xsl:text>(</xsl:text>
-  <xsl:apply-templates select="omv:parameters/omv:parameter" />
-  <xsl:text>)</xsl:text>
+  <xsl:choose>
+    <xsl:when test="$name='[]'">
+      <xsl:text>[</xsl:text>
+      <xsl:apply-templates select="omv:parameters/omv:parameter" />
+      <xsl:text>]</xsl:text>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="$name" />
+      <xsl:text>(</xsl:text>
+      <xsl:apply-templates select="omv:parameters/omv:parameter" />
+      <xsl:text>)</xsl:text>
+    </xsl:otherwise>
+  </xsl:choose>
   <xsl:if test="omv:datatype">
     <xsl:text>: </xsl:text>
     <xsl:apply-templates select="omv:datatype" />
