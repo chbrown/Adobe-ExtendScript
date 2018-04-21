@@ -37,7 +37,7 @@
 <!-- add "Value" suffix to invalid identifiers -->
 <xsl:template match="@name">
   <xsl:value-of select="." />
-  <xsl:if test=".='return' or .='default'">
+  <xsl:if test=".='return' or .='default' or .='with'">
     <xsl:text>Value</xsl:text>
   </xsl:if>
 </xsl:template>
