@@ -170,7 +170,12 @@
   <xsl:value-of select="$name" />
   <xsl:text>(</xsl:text>
   <xsl:apply-templates select="omv:parameters/omv:parameter" />
-  <xsl:text>);</xsl:text>
+  <xsl:text>)</xsl:text>
+  <xsl:if test="omv:datatype">
+    <xsl:text>: </xsl:text>
+    <xsl:apply-templates select="omv:datatype" />
+  </xsl:if>
+  <xsl:text>;</xsl:text>
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
 
