@@ -13,6 +13,7 @@ Additional resources / references:
 * [Yearbook Machine](https://yearbook.com/)'s [ExtendScript API Documentation](https://yearbook.github.io/esdocs/)
   (reformatting of the native "Object Model Viewer" XML for online viewing + fast JavaScript-driven search)
   - ([source on GitHub](https://github.com/yearbook/extendscript-api-documentation))
+* [Motionscript](https://bitbucket.org/motiondesign)'s (?) [AME Scripting Guide](https://ame-scripting-guide.readthedocs.io/index.html)
 
 
 ## License
