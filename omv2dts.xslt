@@ -124,6 +124,9 @@
   </xsl:apply-templates>
   <xsl:value-of select="$indentation" />
   <xsl:value-of select="$modifier" />
+  <xsl:if test="@rwaccess='readonly'">
+    <xsl:text>readonly </xsl:text>
+  </xsl:if>
   <xsl:value-of select="@name" />
   <xsl:if test="omv:datatype">
     <xsl:text>: </xsl:text>
