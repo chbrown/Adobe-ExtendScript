@@ -65,9 +65,9 @@
   <!-- description = element description { (text | a | b | br | font | i | li | element u { li+ })+ } -->
   <!-- shortdesc = element shortdesc { (text | a | b | i)+ } -->
   <!-- li = element li { (text | a | b | br | i)+ } -->
-  <xsl:param name="body">
+  <xsl:variable name="body">
     <xsl:apply-templates select="text()|node()" />
-  </xsl:param>
+  </xsl:variable>
   <xsl:value-of select="normalize-space($body)" />
 </xsl:template>
 
