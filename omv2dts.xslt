@@ -246,16 +246,40 @@
 </xsl:template>
 
 <xsl:template match="omv:classdef">
+  <xsl:variable name="instance-elements" select="omv:elements[@type='instance']|omv:elements[@type='event']" />
+  <xsl:variable name="class-elements" select="omv:elements[@type='constructor']|omv:elements[@type='class']" />
+  <xsl:variable name="ctor-identifier">
+    <xsl:value-of select="@name" />
+    <!-- if there are any instance/event fields,
+      constructor/class fields get relegated to a separate suffixed interface -->
+    <xsl:if test="$instance-elements">
+      <xsl:text>Constructor</xsl:text>
+    </xsl:if>
+  </xsl:variable>
+
   <xsl:text>&#10;</xsl:text>
-  <xsl:apply-templates select="." mode="comment" />
-  <xsl:text>export declare class </xsl:text><xsl:value-of select="@name" />
-  <xsl:if test="omv:superclass">
-    <xsl:text> extends </xsl:text>
-    <xsl:value-of select="omv:superclass" />
+  <xsl:if test="$instance-elements">
+    <!-- the instance/event fields are always put in the main interface -->
+    <xsl:call-template name="interface">
+      <xsl:with-param name="identifier" select="@name" />
+      <xsl:with-param name="extends" select="omv:superclass" />
+      <xsl:with-param name="elements" select="$instance-elements" />
+    </xsl:call-template>
   </xsl:if>
-  <xsl:text> {&#10;</xsl:text>
-  <xsl:apply-templates select="omv:elements" />
-  <xsl:text>}&#10;</xsl:text>
+  <xsl:if test="$class-elements">
+    <!-- the constructor/class fields go into a different interface -->
+    <xsl:call-template name="interface">
+      <xsl:with-param name="identifier" select="$ctor-identifier" />
+      <!-- ignore any superclass -->
+      <xsl:with-param name="elements" select="$class-elements" />
+    </xsl:call-template>
+    <!-- global -->
+    <xsl:apply-templates select="." mode="comment" />
+    <xsl:call-template name="const">
+      <xsl:with-param name="identifier" select="@name" />
+      <xsl:with-param name="type" select="$ctor-identifier" />
+    </xsl:call-template>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="/">
