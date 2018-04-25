@@ -148,14 +148,11 @@
   <xsl:param name="indentation">
     <xsl:text>&#9;</xsl:text>
   </xsl:param>
-  <!-- modifier depends on the parent element -->
-  <xsl:param name="modifier" />
 
   <xsl:apply-templates select="." mode="comment">
     <xsl:with-param name="indentation" select="$indentation" />
   </xsl:apply-templates>
   <xsl:value-of select="$indentation" />
-  <xsl:value-of select="$modifier" />
   <xsl:if test="@rwaccess='readonly'">
     <xsl:text>readonly </xsl:text>
   </xsl:if>
@@ -194,14 +191,11 @@
   <xsl:param name="name">
     <xsl:value-of select="@name" />
   </xsl:param>
-  <!-- modifier depends on the parent element -->
-  <xsl:param name="modifier" />
 
   <xsl:apply-templates select="." mode="comment">
     <xsl:with-param name="indentation" select="$indentation" />
   </xsl:apply-templates>
   <xsl:value-of select="$indentation" />
-  <xsl:value-of select="$modifier" />
   <xsl:choose>
     <xsl:when test="$name='[]'">
       <xsl:text>[</xsl:text>
@@ -225,9 +219,7 @@
 
 <!-- elements elements can have @type: "class" | "instance" | "constructor" | "event" -->
 <xsl:template match="omv:elements[@type='class']">
-  <xsl:apply-templates select="omv:property|omv:method">
-    <xsl:with-param name="modifier"><xsl:text>static </xsl:text></xsl:with-param>
-  </xsl:apply-templates>
+  <xsl:apply-templates select="omv:property|omv:method" />
 </xsl:template>
 <xsl:template match="omv:elements[@type='constructor']">
   <xsl:apply-templates select="omv:method">
