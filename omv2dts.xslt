@@ -74,7 +74,7 @@
 <xsl:template match="omv:property|omv:classdef|omv:method" mode="comment">
   <xsl:param name="indentation" />
   <!-- no-op if there is nothing to put inside the comment -->
-  <xsl:if test="omv:shortdesc|omv:description|omv:parameters">
+  <xsl:if test="omv:shortdesc|omv:description|omv:parameters/omv:parameter[omv:shortdesc|omv:description]">
     <xsl:value-of select="$indentation" />
     <xsl:text>/** </xsl:text><xsl:apply-templates select="omv:shortdesc" />
     <!-- add longer description, if supplied -->
