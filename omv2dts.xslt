@@ -4,6 +4,38 @@
                 xmlns:omv="http://schema.adobe.com/omv/1.0/omv.xsd">
   <xsl:output method="text" encoding="UTF-8" />
 
+<xsl:template name="interface">
+  <xsl:param name="identifier" />
+  <xsl:param name="extends" />
+  <xsl:param name="elements" />
+
+  <xsl:text>interface </xsl:text>
+  <xsl:value-of select="$identifier" />
+  <xsl:if test="$extends">
+    <xsl:text> extends </xsl:text>
+    <xsl:for-each select="$extends">
+      <xsl:apply-templates select="." />
+      <xsl:if test="position() != last()">
+        <xsl:text>, </xsl:text>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:if>
+  <xsl:text> {&#10;</xsl:text>
+  <xsl:apply-templates select="$elements" />
+  <xsl:text>}&#10;</xsl:text>
+</xsl:template>
+
+<xsl:template name="const">
+  <xsl:param name="identifier" />
+  <xsl:param name="type" />
+
+  <xsl:text>declare const </xsl:text>
+  <xsl:value-of select="$identifier" />
+  <xsl:text>: </xsl:text>
+  <xsl:value-of select="$type" />
+  <xsl:text>;&#10;</xsl:text>
+</xsl:template>
+
 <!-- mapping from type (a string) to the corresponding proper TypeScript type -->
 <xsl:template match="omv:type">
   <xsl:choose>
