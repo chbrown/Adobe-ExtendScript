@@ -171,7 +171,7 @@
 
 <xsl:template match="omv:parameter">
   <xsl:apply-templates select="@name" />
-  <xsl:if test="@optional">
+  <xsl:if test="@optional or omv:datatype/omv:value">
     <xsl:text>?</xsl:text>
   </xsl:if>
   <xsl:if test="omv:datatype">
