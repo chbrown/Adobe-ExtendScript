@@ -268,7 +268,7 @@
   </xsl:variable>
 
   <xsl:text>&#10;</xsl:text>
-  <xsl:if test="$instance-elements">
+  <xsl:if test="$instance-elements or not($class-elements)">
     <!-- the instance/event fields are always put in the main interface -->
     <xsl:call-template name="interface">
       <xsl:with-param name="identifier" select="@name" />
