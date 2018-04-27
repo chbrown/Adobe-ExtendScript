@@ -173,6 +173,21 @@
   </xsl:if>
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
+<!-- special global handling -->
+<xsl:template match="omv:classdef[@name='global']//omv:property">
+  <xsl:text>&#10;</xsl:text>
+  <xsl:apply-templates select="." mode="comment" />
+  <xsl:text>declare const </xsl:text>
+  <xsl:value-of select="@name" />
+  <xsl:text>: </xsl:text>
+  <xsl:apply-templates select="omv:datatype" />
+  <xsl:text>;</xsl:text>
+  <xsl:text>&#10;</xsl:text>
+</xsl:template>
+<!-- special special-global-handling -->
+<xsl:template match="omv:classdef[@name='global']//omv:property[@name='undefined']">
+  <!-- suppress declaration (emit nothing) -->
+</xsl:template>
 
 <xsl:template match="omv:parameter">
   <xsl:apply-templates select="@name" />
@@ -249,6 +264,22 @@
   <xsl:text>: Function;</xsl:text>
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
+<!-- special global handling -->
+<xsl:template match="omv:classdef[@name='global']//omv:method">
+  <xsl:text>&#10;</xsl:text>
+  <xsl:apply-templates select="." mode="comment" />
+  <xsl:text>declare function </xsl:text>
+  <xsl:value-of select="@name" />
+  <xsl:text>(</xsl:text>
+  <xsl:apply-templates select="omv:parameters/omv:parameter" />
+  <xsl:text>)</xsl:text>
+  <xsl:if test="omv:datatype">
+    <xsl:text>: </xsl:text>
+    <xsl:apply-templates select="omv:datatype" />
+  </xsl:if>
+  <xsl:text>;</xsl:text>
+  <xsl:text>&#10;</xsl:text>
+</xsl:template>
 
 <!-- elements elements can have @type: "class" | "instance" | "constructor" | "event" -->
 <xsl:template match="omv:elements">
@@ -290,6 +321,10 @@
       <xsl:with-param name="type" select="$ctor-identifier" />
     </xsl:call-template>
   </xsl:if>
+</xsl:template>
+<!-- special handling for "global" classdef -->
+<xsl:template match="omv:classdef[@name='global']">
+  <xsl:apply-templates select="omv:elements" />
 </xsl:template>
 
 <xsl:template match="/">
