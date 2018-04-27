@@ -11,6 +11,10 @@
 
   <xsl:text>interface </xsl:text>
   <xsl:value-of select="$identifier" />
+  <xsl:if test="$identifier = 'Array'">
+    <!-- hack for TypeScript's "Global type 'Array' must have 1 type parameter(s)." constraint -->
+    <xsl:text>&lt;T = any&gt;</xsl:text>
+  </xsl:if>
   <xsl:if test="$extends">
     <xsl:text> extends </xsl:text>
     <xsl:for-each select="$extends">
