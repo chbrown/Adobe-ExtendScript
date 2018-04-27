@@ -48,6 +48,7 @@
     <xsl:when test=".='int'">number</xsl:when>
     <xsl:when test=".='bool'">boolean</xsl:when>
     <xsl:when test=".='Boolean'">boolean</xsl:when>
+    <xsl:when test=".='Rect'">Rectangle</xsl:when><!-- fix typo -->
     <xsl:when test=".='String'">string</xsl:when>
     <xsl:when test=".='Undefined'">undefined</xsl:when>
     <xsl:otherwise><xsl:value-of select="." /></xsl:otherwise>
