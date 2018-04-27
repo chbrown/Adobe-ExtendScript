@@ -192,23 +192,19 @@
   <xsl:param name="indentation">
     <xsl:text>&#9;</xsl:text>
   </xsl:param>
-  <!-- parameterizing "name" lets us override this for constructors without too much extra code -->
-  <xsl:param name="name">
-    <xsl:value-of select="@name" />
-  </xsl:param>
 
   <xsl:apply-templates select="." mode="comment">
     <xsl:with-param name="indentation" select="$indentation" />
   </xsl:apply-templates>
   <xsl:value-of select="$indentation" />
   <xsl:choose>
-    <xsl:when test="$name='[]'">
+    <xsl:when test="@name='[]'">
       <xsl:text>[</xsl:text>
       <xsl:apply-templates select="omv:parameters/omv:parameter" />
       <xsl:text>]</xsl:text>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:value-of select="$name" />
+      <xsl:value-of select="@name" />
       <xsl:text>(</xsl:text>
       <xsl:apply-templates select="omv:parameters/omv:parameter" />
       <xsl:text>)</xsl:text>
@@ -221,32 +217,41 @@
   <xsl:text>;</xsl:text>
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
-
-<!-- elements elements can have @type: "class" | "instance" | "constructor" | "event" -->
-<xsl:template match="omv:elements[@type='class']">
-  <xsl:apply-templates select="omv:property|omv:method" />
-</xsl:template>
-<xsl:template match="omv:elements[@type='constructor']">
-  <xsl:apply-templates select="omv:method">
-    <xsl:with-param name="name"><xsl:text>new </xsl:text></xsl:with-param>
-  </xsl:apply-templates>
-</xsl:template>
-<xsl:template match="omv:elements[@type='event']">
+<!-- constructors are simpler -->
+<xsl:template match="omv:elements[@type='constructor']/omv:method">
   <xsl:param name="indentation">
     <xsl:text>&#9;</xsl:text>
   </xsl:param>
 
-  <xsl:for-each select="omv:method">
-    <xsl:apply-templates select="." mode="comment">
-      <xsl:with-param name="indentation" select="$indentation" />
-    </xsl:apply-templates>
-    <xsl:value-of select="$indentation" />
-    <xsl:value-of select="@name" />
-    <xsl:text>: Function;</xsl:text>
-    <xsl:text>&#10;</xsl:text>
-  </xsl:for-each>
+  <xsl:apply-templates select="." mode="comment">
+    <xsl:with-param name="indentation" select="$indentation" />
+  </xsl:apply-templates>
+  <xsl:value-of select="$indentation" />
+  <xsl:text>new (</xsl:text>
+  <xsl:apply-templates select="omv:parameters/omv:parameter" />
+  <xsl:text>)</xsl:text>
+  <xsl:text>: </xsl:text>
+  <xsl:value-of select="@name" />
+  <xsl:text>;</xsl:text>
+  <xsl:text>&#10;</xsl:text>
 </xsl:template>
-<xsl:template match="omv:elements[@type='instance']">
+<!-- event methods are even simpler -->
+<xsl:template match="omv:elements[@type='event']/omv:method">
+  <xsl:param name="indentation">
+    <xsl:text>&#9;</xsl:text>
+  </xsl:param>
+
+  <xsl:apply-templates select="." mode="comment">
+    <xsl:with-param name="indentation" select="$indentation" />
+  </xsl:apply-templates>
+  <xsl:value-of select="$indentation" />
+  <xsl:value-of select="@name" />
+  <xsl:text>: Function;</xsl:text>
+  <xsl:text>&#10;</xsl:text>
+</xsl:template>
+
+<!-- elements elements can have @type: "class" | "instance" | "constructor" | "event" -->
+<xsl:template match="omv:elements">
   <xsl:apply-templates select="omv:property|omv:method" />
 </xsl:template>
 
